@@ -1,0 +1,25 @@
+[
+  {
+    "title": "Cross-dataset cheap aggregate",
+    "question": "How many frames per dataset?",
+    "sql": "SELECT dataset, COUNT(*) AS n\n                FROM (\n                  SELECT * FROM WAYMO_METADATA\n                  UNION ALL SELECT * FROM BDD100K_METADATA\n                )\n                GROUP BY dataset\n                ORDER BY n DESC",
+    "rows": [
+      {
+        "DATASET": "waymo",
+        "N": 49480
+      }
+    ]
+  },
+  {
+    "title": "Topic-derived filter (Decision 17 hybrid story)",
+    "question": "Dense pedestrian frames at night across BDD100K",
+    "sql": "SELECT dataset, time_of_day, num_pedestrians, frame_id, thumbnail_uri\n                FROM BDD100K_METADATA\n                WHERE time_of_day = 'night' AND num_pedestrians >= 3\n                ORDER BY num_pedestrians DESC\n                LIMIT 10",
+    "rows": []
+  },
+  {
+    "title": "Cross-dataset unified schema (Decision 15)",
+    "question": "Top weather distribution across both datasets",
+    "sql": "SELECT dataset, weather, COUNT(*) AS n\n                FROM (\n                  SELECT dataset, weather FROM WAYMO_METADATA\n                  UNION ALL SELECT dataset, weather FROM BDD100K_METADATA\n                )\n                WHERE weather IS NOT NULL\n                GROUP BY dataset, weather\n                ORDER BY dataset, n DESC",
+    "rows": []
+  }
+]

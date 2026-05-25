@@ -1,0 +1,104 @@
+{
+  "schema_version": 1,
+  "comment": "12 needle queries for the eval harness. Seeded from docs/findings.md template + Decision 17 capability matrix. Editable — the user can adjust SQL filters as the metadata schema fills in.",
+  "needles": [
+    {
+      "needle_id": "n01_unprotected_left_pedestrian",
+      "query_text": "unprotected left turn with pedestrian in the crosswalk",
+      "sql_filter": "city = 'sf' AND num_pedestrians >= 1",
+      "datasets_expected": ["waymo", "nuscenes", "av2"],
+      "difficulty": "hard",
+      "notes": "Hybrid SQL+vector. BDD100K excluded — no ego-pose for turn detection."
+    },
+    {
+      "needle_id": "n02_near_miss_pedestrian",
+      "query_text": "near miss with pedestrian, close braking",
+      "sql_filter": "closest_ped_distance_m < 3.0",
+      "datasets_expected": ["waymo", "nuscenes", "av2"],
+      "difficulty": "hard",
+      "notes": "Needs LiDAR-derived perception distance. Skipped on BDD100K."
+    },
+    {
+      "needle_id": "n03_bumpy_ride_cause",
+      "query_text": "bumpy ride, vertical acceleration spike",
+      "sql_filter": "ABS(ego_accel_z_mps2) > 4.0",
+      "datasets_expected": ["nuscenes", "av2"],
+      "difficulty": "hard",
+      "notes": "Waymo public release lacks IMU — column NULL. nuScenes + AV2 have it."
+    },
+    {
+      "needle_id": "n04_cyclist_weaving",
+      "query_text": "cyclist weaving between lanes in traffic",
+      "sql_filter": "num_cyclists >= 1",
+      "datasets_expected": ["waymo", "bdd100k", "nuscenes", "av2"],
+      "difficulty": "medium",
+      "notes": "All datasets count cyclists; vector captures the weaving motion semantic."
+    },
+    {
+      "needle_id": "n05_construction_zone",
+      "query_text": "construction zone with cones and workers",
+      "sql_filter": null,
+      "datasets_expected": ["waymo", "bdd100k", "nuscenes", "av2"],
+      "difficulty": "medium",
+      "notes": "Pure vector. No structured label for 'construction' in any of our metadata."
+    },
+    {
+      "needle_id": "n06_night_pedestrian",
+      "query_text": "pedestrian at night, poor visibility",
+      "sql_filter": "time_of_day = 'night' AND num_pedestrians >= 1",
+      "datasets_expected": ["bdd100k", "nuscenes"],
+      "difficulty": "medium",
+      "notes": "Waymo: time_of_day rough only. BDD100K + nuScenes have explicit night labels."
+    },
+    {
+      "needle_id": "n07_school_bus_stop_arm",
+      "query_text": "school bus with stop arm extended",
+      "sql_filter": null,
+      "datasets_expected": ["waymo", "bdd100k", "nuscenes", "av2"],
+      "difficulty": "hard",
+      "notes": "Pure vector — no structured label."
+    },
+    {
+      "needle_id": "n08_emergency_vehicle",
+      "query_text": "emergency vehicle with lights, ambulance or police",
+      "sql_filter": null,
+      "datasets_expected": ["waymo", "bdd100k", "nuscenes", "av2"],
+      "difficulty": "medium",
+      "notes": "Pure vector. Lighting/markings are visual not structured."
+    },
+    {
+      "needle_id": "n09_jaywalking",
+      "query_text": "jaywalker crossing outside crosswalk",
+      "sql_filter": "num_pedestrians >= 1",
+      "datasets_expected": ["bdd100k", "nuscenes"],
+      "difficulty": "hard",
+      "notes": "Waymo curated out jaywalking — BDD100K + nuScenes have it natively."
+    },
+    {
+      "needle_id": "n10_looks_like_this_frame",
+      "query_text": null,
+      "image_frame_id": "2b021d52139d4d15",
+      "sql_filter": null,
+      "datasets_expected": ["waymo", "bdd100k", "nuscenes", "av2"],
+      "difficulty": "easy",
+      "notes": "Image→image. Seed: Waymo FRONT camera, device 10082223140073588526_6140_000_6160_000 (SF segment). Tests DINOv2 (image-only model) head-to-head with SigLIP/CLIP on a similarity-only query."
+    },
+    {
+      "needle_id": "n11_wet_road_reflections",
+      "query_text": "wet road, reflections from streetlights at night",
+      "sql_filter": "weather IN ('rain', 'snow') AND time_of_day IN ('night', 'dawn_dusk')",
+      "datasets_expected": ["bdd100k", "nuscenes"],
+      "difficulty": "medium",
+      "notes": "BDD100K + nuScenes have weather + time-of-day. Waymo lacks weather column."
+    },
+    {
+      "needle_id": "n12_eval_set_creation",
+      "query_text": null,
+      "image_frame_id": "b7ae9dea5d22cce0",
+      "sql_filter": null,
+      "datasets_expected": ["waymo", "bdd100k", "nuscenes", "av2"],
+      "difficulty": "easy",
+      "notes": "Image→image. Seed: BDD100K dashcam (bdd100k_train). Active-learning eval-set growth use case: pick one labeled frame, find more like it. Cross-dataset story: do we find Waymo lookalikes from a BDD seed?"
+    }
+  ]
+}

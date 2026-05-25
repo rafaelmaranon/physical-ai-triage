@@ -1,0 +1,56 @@
+# physical-ai-triage — .gitignore for a Python + LanceDB project
+
+# Data (regenerable from sources)
+data/
+mcap_local/
+*.mcap
+*.parquet
+*.lance/
+
+# Embeddings (regenerable)
+embeddings/
+*.npy
+*.npz
+
+# Media raw exports (keep curated screenshots/video in media/)
+media/screenshots/raw/
+media/video/raw/
+media/video/exports/
+*.mov
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Secrets / auth (safety net — these belong in env vars, never committed)
+.env
+.env.*
+!.env.example
+*.json.credentials
+gcloud-config/
+service-account*.json
+secrets/
+
+# Auto-generated rendered HTML from .md sources
+README.html
+PIPELINE.html
+docs/*.html
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+README_preview.html

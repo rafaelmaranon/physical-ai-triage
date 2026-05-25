@@ -1,0 +1,40 @@
+{
+  "experiment": "metadata_lift",
+  "corpus": "240 Waymo frames with SigLIP image embedding AND Cosmos-R2 caption",
+  "metadata_derivation": "regex on Cosmos-R2 caption text",
+  "results": [
+    {
+      "needle": "n06_night_pedestrian",
+      "query": "pedestrian at night, poor visibility",
+      "sql_filter": "time_of_day='night' AND has_pedestrian=true",
+      "pure_vector_precision_at_10": 0.2,
+      "hybrid_precision_at_10": 1.0,
+      "lift_absolute": 0.8,
+      "lift_multiplier": 5.0,
+      "filtered_pool_size": 96,
+      "labeled_corpus_size": 240
+    },
+    {
+      "needle": "n11_wet_road_reflections",
+      "query": "wet road, reflections from streetlights at night",
+      "sql_filter": "is_wet=true AND time_of_day='night'",
+      "pure_vector_precision_at_10": 0.0,
+      "hybrid_precision_at_10": 1.0,
+      "lift_absolute": 1.0,
+      "lift_multiplier": null,
+      "filtered_pool_size": 18,
+      "labeled_corpus_size": 240
+    },
+    {
+      "needle": "n06_night_only",
+      "query": "scene at night",
+      "sql_filter": "time_of_day='night'",
+      "pure_vector_precision_at_10": 0.3,
+      "hybrid_precision_at_10": 1.0,
+      "lift_absolute": 0.7,
+      "lift_multiplier": 3.3333333333333335,
+      "filtered_pool_size": 130,
+      "labeled_corpus_size": 240
+    }
+  ]
+}

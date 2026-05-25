@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>physical-ai-triage — pipeline (LinkedIn)</title>
+<style>
+  body { background:#FAFAF8; margin:0; padding:0; }
+  svg { width:100%; height:auto; display:block; max-width:1180px; margin:0 auto; }
+</style>
+</head>
+<body>
+  <svg viewBox="0 0 1180 520" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system, BlinkMacSystemFont, sans-serif">
+
+    <!-- ===== 5 horizontal zones ===== -->
+
+    <!-- ① SOURCES (blue) -->
+    <rect x="20"   y="50"  width="195" height="320" rx="10" fill="#F5F9FE" stroke="#1F4F8F" stroke-width="2"/>
+    <text x="117" y="76"  text-anchor="middle" font-size="11" font-weight="700" letter-spacing="1.8" fill="#1F4F8F">① SOURCES</text>
+    <text x="117" y="120" text-anchor="middle" font-size="14" font-weight="700">📡 Waymo Open</text>
+    <text x="117" y="142" text-anchor="middle" font-size="11" fill="#666">49K frames</text>
+    <text x="117" y="180" text-anchor="middle" font-size="14" font-weight="700">📡 BDD100K</text>
+    <text x="117" y="202" text-anchor="middle" font-size="11" fill="#666">46K frames</text>
+    <text x="117" y="240" text-anchor="middle" font-size="14" font-weight="700">📁 Local MCAPs</text>
+    <text x="117" y="262" text-anchor="middle" font-size="11" fill="#666">3 segments · 5 cams</text>
+    <text x="117" y="320" text-anchor="middle" font-size="11" font-style="italic" fill="#1F4F8F">95K total frames</text>
+    <text x="117" y="338" text-anchor="middle" font-size="10" fill="#666" font-family="ui-monospace,Menlo,monospace">→ S3 thumbnails</text>
+
+    <!-- ② PERCEPTION (purple) -->
+    <rect x="245"  y="50"  width="195" height="320" rx="10" fill="#F4EEFB" stroke="#5B2D90" stroke-width="2"/>
+    <text x="342" y="76"  text-anchor="middle" font-size="11" font-weight="700" letter-spacing="1.8" fill="#5B2D90">② PERCEPTION</text>
+    <text x="342" y="120" text-anchor="middle" font-size="14" font-weight="700">🧠 Image encoders</text>
+    <text x="342" y="142" text-anchor="middle" font-size="11" fill="#666">SigLIP · CLIP · DINOv2</text>
+    <text x="342" y="160" text-anchor="middle" font-size="11" fill="#666">Cosmos Embed1</text>
+    <text x="342" y="200" text-anchor="middle" font-size="14" font-weight="700">👁 VLMs</text>
+    <text x="342" y="222" text-anchor="middle" font-size="11" fill="#666">Cosmos-Reason-1 (7B)</text>
+    <text x="342" y="240" text-anchor="middle" font-size="11" fill="#666">Cosmos-Reason-2 (8B)</text>
+    <text x="342" y="295" text-anchor="middle" font-size="11" font-style="italic" fill="#5B2D90">Mac CPU + Brev L4 GPU</text>
+    <text x="342" y="335" text-anchor="middle" font-size="11" fill="#666" font-style="italic">vectors + captions</text>
+
+    <!-- ③ CACHE / THE MOAT (orange) -->
+    <rect x="470"  y="50"  width="240" height="320" rx="10" fill="#FFFBEF" stroke="#d4a700" stroke-width="3"/>
+    <rect x="600" y="34" width="100" height="22" rx="11" fill="#d4a700"/>
+    <text x="650" y="50" text-anchor="middle" font-size="10" font-weight="800" fill="#fff" letter-spacing="1.5">★ THE MOAT ★</text>
+    <text x="590" y="86"  text-anchor="middle" font-size="11" font-weight="700" letter-spacing="1.8" fill="#A8530F">③ CACHED PERCEPTION</text>
+    <text x="590" y="130" text-anchor="middle" font-size="14" font-weight="700">💾 LanceDB</text>
+    <text x="590" y="152" text-anchor="middle" font-size="11" fill="#666">6 vector tables · 95K rows</text>
+    <text x="590" y="200" text-anchor="middle" font-size="14" font-weight="700">📋 Parquet columns</text>
+    <text x="590" y="222" text-anchor="middle" font-size="11" fill="#7a4a08" font-family="ui-monospace,Menlo,monospace">time_of_day · has_pedestrian</text>
+    <text x="590" y="238" text-anchor="middle" font-size="11" fill="#7a4a08" font-family="ui-monospace,Menlo,monospace">weather · scenario_tag</text>
+    <text x="590" y="280" text-anchor="middle" font-size="14" font-weight="700">❄ Snowflake ext. tables</text>
+    <text x="590" y="320" text-anchor="middle" font-size="11" font-style="italic" fill="#A8530F">cheap layer: encoders are buyable</text>
+    <text x="590" y="338" text-anchor="middle" font-size="11" font-style="italic" fill="#A8530F">expensive layer: schema is earned</text>
+
+    <!-- ④ QUERY (green) -->
+    <rect x="740"  y="50"  width="195" height="320" rx="10" fill="#F1FAF4" stroke="#1F7A47" stroke-width="2"/>
+    <text x="837" y="76"  text-anchor="middle" font-size="11" font-weight="700" letter-spacing="1.8" fill="#1F7A47">④ QUERY APP</text>
+    <text x="837" y="120" text-anchor="middle" font-size="14" font-weight="700">⚡ Flask · :5050</text>
+    <text x="837" y="142" text-anchor="middle" font-size="11" fill="#666">/search · /compare · /llm</text>
+    <text x="837" y="180" text-anchor="middle" font-size="14" font-weight="700">📐 Cosine + WHERE</text>
+    <text x="837" y="202" text-anchor="middle" font-size="11" fill="#666">LanceDB ANN + DuckDB</text>
+    <text x="837" y="240" text-anchor="middle" font-size="14" font-weight="700">🧠 Claude router</text>
+    <text x="837" y="262" text-anchor="middle" font-size="11" fill="#666">NL → SQL + vec</text>
+    <text x="837" y="305" text-anchor="middle" font-size="14" font-weight="700">🦊 Foxglove deeplink</text>
+    <text x="837" y="327" text-anchor="middle" font-size="11" fill="#666">opens MCAP at ts_ns</text>
+
+    <!-- ⑤ EVAL (amber) -->
+    <rect x="965"  y="50"  width="195" height="320" rx="10" fill="#FEF6EC" stroke="#cf9c3b" stroke-width="2"/>
+    <text x="1062" y="76"  text-anchor="middle" font-size="11" font-weight="700" letter-spacing="1.8" fill="#7a4a08">⑤ EVAL</text>
+    <text x="1062" y="120" text-anchor="middle" font-size="14" font-weight="700">📋 12-needle harness</text>
+    <text x="1062" y="142" text-anchor="middle" font-size="11" fill="#666">coverage per model</text>
+    <text x="1062" y="180" text-anchor="middle" font-size="11" font-weight="700" fill="#7a4a08">⌧ encoder plateau ≤33%</text>
+    <text x="1062" y="220" text-anchor="middle" font-size="14" font-weight="700">📊 Metadata-lift</text>
+    <text x="1062" y="242" text-anchor="middle" font-size="11" fill="#666">same SigLIP, hybrid filter</text>
+    <text x="1062" y="278" text-anchor="middle" font-size="11" font-weight="700" fill="#7a4a08">⚡ P@10: 0.20 → 1.00</text>
+    <text x="1062" y="296" text-anchor="middle" font-size="11" font-weight="700" fill="#7a4a08">5× lift, same encoder</text>
+    <text x="1062" y="338" text-anchor="middle" font-size="10" fill="#cf9c3b" font-style="italic">finding → next schema column</text>
+
+    <!-- ===== forward arrows ===== -->
+    <line x1="220" y1="210" x2="240" y2="210" stroke="#1F4F8F" stroke-width="2.5"/>
+    <polygon points="240,210 232,205 232,215" fill="#1F4F8F"/>
+
+    <line x1="445" y1="210" x2="465" y2="210" stroke="#5B2D90" stroke-width="2.5"/>
+    <polygon points="465,210 457,205 457,215" fill="#5B2D90"/>
+
+    <line x1="715" y1="210" x2="735" y2="210" stroke="#A8530F" stroke-width="2.5"/>
+    <polygon points="735,210 727,205 727,215" fill="#A8530F"/>
+
+    <line x1="940" y1="210" x2="960" y2="210" stroke="#1F7A47" stroke-width="2.5"/>
+    <polygon points="960,210 952,205 952,215" fill="#1F7A47"/>
+
+    <!-- ===== big feedback loop arrow (eval → sources) — the flywheel ===== -->
+    <path d="M 1062 380 Q 1062 460 590 460 Q 117 460 117 380" stroke="#d4a700" stroke-width="3.5" fill="none" stroke-dasharray="9,5"/>
+    <polygon points="117,382 112,392 122,392" fill="#d4a700"/>
+    <text x="590" y="495" text-anchor="middle" font-size="12.5" font-weight="700" fill="#A8530F" font-style="italic">↻  schema update — eval finding becomes the next ingest column</text>
+
+  </svg>
+</body>
+</html>

@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "comment": "Hand-labeled ground truth per needle. Populated after embeddings land. For each needle, list frame_ids that a human judge would mark as 'correct' for that query. Empty list = not yet labeled — eval skips those needles with coverage=null.",
+  "labeled_by": null,
+  "labeled_at": null,
+  "ground_truth": {
+    "n01_unprotected_left_pedestrian": [],
+    "n02_near_miss_pedestrian": [],
+    "n03_bumpy_ride_cause": [],
+    "n04_cyclist_weaving": [],
+    "n05_construction_zone": [],
+    "n06_night_pedestrian": [],
+    "n07_school_bus_stop_arm": [],
+    "n08_emergency_vehicle": [],
+    "n09_jaywalking": [],
+    "n10_looks_like_this_frame": [],
+    "n11_wet_road_reflections": [],
+    "n12_eval_set_creation": []
+  }
+}

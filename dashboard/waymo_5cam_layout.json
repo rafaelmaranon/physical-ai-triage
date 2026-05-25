@@ -1,0 +1,37 @@
+{
+  "name": "Waymo 5-camera (physical-ai-triage)",
+  "permission": "CREATOR_WRITE",
+  "data": {
+    "configById": {
+      "Image!front": {"topic": "/CAMERA_FRONT/compressed_image", "cameraInfoTopic": "/CAMERA_FRONT/camera_info"},
+      "Image!front_left": {"topic": "/CAMERA_FRONT_LEFT/compressed_image", "cameraInfoTopic": "/CAMERA_FRONT_LEFT/camera_info"},
+      "Image!front_right": {"topic": "/CAMERA_FRONT_RIGHT/compressed_image", "cameraInfoTopic": "/CAMERA_FRONT_RIGHT/camera_info"},
+      "Image!side_left": {"topic": "/CAMERA_SIDE_LEFT/compressed_image", "cameraInfoTopic": "/CAMERA_SIDE_LEFT/camera_info"},
+      "Image!side_right": {"topic": "/CAMERA_SIDE_RIGHT/compressed_image", "cameraInfoTopic": "/CAMERA_SIDE_RIGHT/camera_info"}
+    },
+    "globalVariables": {},
+    "userNodes": {},
+    "playbackConfig": {"speed": 1},
+    "layout": {
+      "first": {
+        "first": "Image!front_left",
+        "second": {
+          "first": "Image!front",
+          "second": "Image!front_right",
+          "direction": "row",
+          "splitPercentage": 50
+        },
+        "direction": "row",
+        "splitPercentage": 33.33
+      },
+      "second": {
+        "first": "Image!side_left",
+        "second": "Image!side_right",
+        "direction": "row",
+        "splitPercentage": 50
+      },
+      "direction": "column",
+      "splitPercentage": 60
+    }
+  }
+}
